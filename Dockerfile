@@ -11,7 +11,8 @@ COPY requirements.txt .
 RUN python -m pip install --upgrade pip
 RUN pip uninstall -y nvidia-tensorboard nvidia-tensorboard-plugin-dlprof
 RUN pip install --no-cache -r requirements.txt coremltools onnx gsutil notebook wandb>=0.12.2
-RUN pip install --no-cache -U torch torchvision numpy Pillow
+RUN pip install --no-cache -U numpy Pillow
+RUN pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 # RUN pip install --no-cache torch==1.10.0+cu113 torchvision==0.11.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 
 # Create working directory
@@ -23,6 +24,9 @@ COPY . /usr/src/app
 
 # Downloads to user config dir
 ADD https://ultralytics.com/assets/Arial.ttf /root/.config/Ultralytics/
+
+# Set mount volumes
+VOLUME ["/mnt/hdd"]
 
 # Set environment variables
 # ENV HOME=/usr/src/app
